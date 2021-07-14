@@ -29,12 +29,35 @@ main {
 h1 {
     color: white;
     font-size: 3rem;
+    letter-spacing: 1px;
+    cursor: default;
+    user-select: none;
+}
+
+#start {
+    background-color: #CC46BF;
+    color: white;
+    width: 220px;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    margin-top: 30px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+#start:hover {
+    opacity: 0.9;
 }
 
 #board {
     margin-top: 30px;
-    width: 360px;
-    height: 360px;
+    width: 340px;
+    height: 320px;
     background-color: #FFCE9E;
     display: flex;
     flex-direction: column;
@@ -50,4 +73,18 @@ h1 {
     background-color: #FFCE9E;
     width: calc(100% / 8);
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pieces {
+    width: 34px;
+    height: 34px;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.pieces:hover {
+    filter: brightness(80%);
 }
