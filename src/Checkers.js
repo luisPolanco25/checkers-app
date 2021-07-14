@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import {Board} from './components/board/Board';
+
 
 export const Checkers = () => {
   return (
-    <div>
-      <h1>Hello world</h1>
-    </div>
+    <main>
+      <h1>Checkers Game</h1>
+      <Board />
+    </main>
   )
 }
