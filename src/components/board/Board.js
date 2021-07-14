@@ -1,12 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { createBoard } from '../../helpers/createBoard';
+import React, { useContext } from 'react';
 import { startGame } from '../../helpers/startGame';
-import { GameContext } from '../gameContext/GameContext';
+import { BoardContext } from '../context/BoardContext';
+import { GameContext } from '../context/GameContext';
+import { MovementsContext } from '../context/MovementsContext';
 import { Piece } from '../pieces/Piece';
 
 export const Board = () => {
 
-    const [board, setBoard] = useState(createBoard())
+    const {board, setBoard} = useContext(BoardContext);
+    const {isPieceSelected} = useContext(MovementsContext);
     const {gameHasStarted, setGameHasStarted} = useContext(GameContext);
 
     const handleStart = () => {
@@ -42,12 +44,13 @@ export const Board = () => {
                                     className="square" 
                                     style={
                                         (squareIdx % 2 !== 0 && rowIdx % 2 === 0) ? {backgroundColor: '#D18B47'} : 
-                                        (squareIdx % 2 === 0 && rowIdx % 2 !== 0) ? {backgroundColor: '#D18B47'}
-                                        : null
+                                        (squareIdx % 2 === 0 && rowIdx % 2 !== 0) ? {backgroundColor: '#D18B47'} :
+                                        null
                                     }
                                     key={`row-${rowIdx}-square-${squareIdx + 1}`}
-                                >
-                                    <Piece board={board} square={square} />
+                                    >
+
+                                    <Piece row={row} square={square} idx={squareIdx} />
                                 </div>
                             ))
                         }

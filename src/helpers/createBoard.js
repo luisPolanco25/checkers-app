@@ -7,7 +7,7 @@ export const createBoard = (board = []) => {
         if (board.length === 8) {
             return board;
         } else {
-            board.push(row);
+            board.push([...row]);
             return fillBoard(board);
         }
     }
