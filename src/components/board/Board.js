@@ -1,22 +1,29 @@
 import React, { useContext } from 'react';
+import { createBoard } from '../../helpers/createBoard';
 import { startGame } from '../../helpers/startGame';
 import { BoardContext } from '../context/BoardContext';
 import { GameContext } from '../context/GameContext';
-import { MovementsContext } from '../context/MovementsContext';
-import { Piece } from '../pieces/Piece';
+import { Row } from '../rows/Row';
 
 export const Board = () => {
 
     const {board, setBoard} = useContext(BoardContext);
-    const {isPieceSelected} = useContext(MovementsContext);
-    const {gameHasStarted, setGameHasStarted} = useContext(GameContext);
+    const {gameHelpers, setGameHelpers} = useContext(GameContext);
+    const {gameHasStarted} = gameHelpers;
 
     const handleStart = () => {
-        setBoard(startGame(board));
-        setGameHasStarted(!gameHasStarted);
+        setBoard(startGame(createBoard()));
+        setTimeout(() => {
+            setGameHelpers({
+                gameHasStarted: !gameHasStarted,
+                isPieceSelected: false,
+                selectedPiecePosition: null,
+                isComputerTurn: false,
+            });
+        }, 200);
     }
 
-    console.log(board);
+    // console.log(board);
 
     return (
         <>
@@ -35,24 +42,12 @@ export const Board = () => {
         </button>
         
         <div id="board">
+            
             {
                 board.map((row, rowIdx) => (
                     <div className="row" key={`row-${rowIdx + 1}`}>
                         {
-                            row.map((square, squareIdx) => (
-                                <div 
-                                    className="square" 
-                                    style={
-                                        (squareIdx % 2 !== 0 && rowIdx % 2 === 0) ? {backgroundColor: '#D18B47'} : 
-                                        (squareIdx % 2 === 0 && rowIdx % 2 !== 0) ? {backgroundColor: '#D18B47'} :
-                                        null
-                                    }
-                                    key={`row-${rowIdx}-square-${squareIdx + 1}`}
-                                    >
-
-                                    <Piece row={row} square={square} idx={squareIdx} />
-                                </div>
-                            ))
+                            <Row row={row} rowIdx={rowIdx} />
                         }
                     </div>
                 ))
