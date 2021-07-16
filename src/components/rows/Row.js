@@ -7,7 +7,7 @@ import {computerPlaythrough} from '../../computer/computerPlaythrough';
 export const Row = ({row, rowIdx}) => {
     
     const {gameHelpers, setGameHelpers} = useContext(GameContext);
-    const {isPieceSelected, selectedPiecePosition, isComputerTurn} = gameHelpers;
+    const {isPieceSelected, selectedPiecePosition} = gameHelpers;
     const {board, setBoard} = useContext(BoardContext);
 
     const handleMove = (row, square, squareIdx) => {
@@ -15,15 +15,48 @@ export const Row = ({row, rowIdx}) => {
         if (isPieceSelected && (square === 'movement1' || square === 'movement2')) {
             
             const pieceRow = board.indexOf(selectedPiecePosition.row);
-            const pieceIdx = selectedPiecePosition.idx
+            const pieceIdx = selectedPiecePosition.idx;
             
-            board[pieceRow][pieceIdx] = null
-
+            board[pieceRow][pieceIdx] = null;
+            
             const selectedRow = board.indexOf(row);
             board[selectedRow][squareIdx] = 'player';
-            setGameHelpers({...gameHelpers, isPieceSelected: false, isComputerTurn: true});
             
-            setBoard(computerPlaythrough(isComputerTurn, board));
+            gameHelpers.isComputerTurn = true;
+
+            
+            setTimeout(() => {
+                setBoard(computerPlaythrough(board));
+                setGameHelpers({...gameHelpers, isComputerTurn: false})
+            }, 2500);
+            
+        }
+
+        if (isPieceSelected && (square === 'jump1' || square === 'jump2')) {
+            
+            const pieceRow = board.indexOf(selectedPiecePosition.row);
+            const pieceIdx = selectedPiecePosition.idx
+            
+            board[pieceRow][pieceIdx] = null;
+            
+            const selectedRow = board.indexOf(row);
+            board[selectedRow][squareIdx] = 'player';
+            
+            if (square === 'jump1') {
+                board[selectedRow + 1][squareIdx + 1] = null;
+            } 
+
+            if (square === 'jump2') {
+                board[selectedRow + 1][squareIdx - 1] = null;
+            }
+
+            gameHelpers.isComputerTurn = true;
+
+            
+            setTimeout(() => {
+                setBoard(computerPlaythrough(board));
+                setGameHelpers({...gameHelpers, isComputerTurn: false})
+            }, 2500);
             
         }
 
@@ -37,7 +70,8 @@ export const Row = ({row, rowIdx}) => {
                 <div
                 className="square" 
                 style={
-                    (isPieceSelected && (square === 'movement1' || square === 'movement2')) ? 
+                    (isPieceSelected && (square === 'movement1' || square === 'movement2' || 
+                    square === 'jump1' || square === 'jump2')) ? 
                     {backgroundColor: '#66FF99', cursor: 'pointer'} :
                     
                     (squareIdx % 2 !== 0 && rowIdx % 2 === 0) ? {backgroundColor: '#D18B47'} : 

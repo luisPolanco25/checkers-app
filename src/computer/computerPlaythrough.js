@@ -1,70 +1,138 @@
 
-export const computerPlaythrough = (isComputerTurn, board = []) => {
+export const computerPlaythrough = (board = []) => {
+    
+    const newBoard = [...board];
+    
 
-        
     const computerMovesOrJumps = () => {
-        const randomRow = board.indexOf(board[Math.floor(Math.random() * board.length)]);
-        const randomPiece = board[randomRow].indexOf(board[randomRow][Math.floor(Math.random() * board[randomRow].length)]);
+        const randomRow = newBoard.indexOf(newBoard[Math.floor(Math.random() * newBoard.length)]);
+        const randomPiece = newBoard[randomRow].indexOf(newBoard[randomRow][Math.floor(Math.random() * newBoard[randomRow].length)]);
+        const nextRow = randomRow + 1; 
 
-        if (board[randomRow].indexOf('computer') < 0 ||
-            board[randomRow][randomPiece] !== 'computer') {
+        if (newBoard[randomRow][randomPiece] === null ||
+            newBoard[randomRow][randomPiece] === 'king-player' || 
+            newBoard[randomRow][randomPiece] === 'player') {
                 
             return computerMovesOrJumps();
 
-        }
-   
-        const nextRow = randomRow + 1; 
-        
-        
-        if (board[nextRow][randomPiece + 1] === 'player' &&
-            board[nextRow + 1][randomPiece + (1 * 2)] === null) {
+        } else if (newBoard[randomRow][randomPiece] === 'king-computer') {
 
-            setTimeout(() => {
-                board[nextRow][randomPiece + 1] = null;
-                board[nextRow + 1][randomPiece + (1 * 2)] = 'computer';
-            }, 5);    
+            if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow + 1] !== undefined &&
+                (newBoard[nextRow][randomPiece + 1] === 'player' ||
+                newBoard[nextRow][randomPiece + 1] === 'king-player') &&
+                newBoard[nextRow + 1][randomPiece + 2] === null) {
 
-            return board;
+                newBoard[nextRow][randomPiece + 1] = null;
+                newBoard[nextRow + 1][randomPiece + 2] = 'king-computer';
+                newBoard[randomRow][randomPiece] = null;
+
                     
-        } else if (board[nextRow][randomPiece - 1] === 'player' &&
-            board[nextRow + 1][randomPiece - (1 * 2)] === null) {
-                        
-            setTimeout(() => {
-                board[nextRow][randomPiece - 1] = null;
-                board[nextRow + 1][randomPiece - (1 * 2)] = 'computer';
-            }, 5);
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow - 1] !== undefined &&
+                (newBoard[nextRow][randomPiece + 1] === 'player' ||
+                newBoard[nextRow][randomPiece + 1] === 'king-player') &&
+                newBoard[nextRow - 1][randomPiece + 2] === null) {
 
-            return board;
+                newBoard[nextRow][randomPiece + 1] = null;
+                newBoard[nextRow - 1][randomPiece + 2] = 'king-computer';
+                newBoard[randomRow][randomPiece] = null;
+                
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow + 1] !== undefined &&
+                (newBoard[nextRow][randomPiece - 1] === 'player' ||
+                newBoard[nextRow][randomPiece - 1] === 'king-player') &&
+                newBoard[nextRow + 1][randomPiece - 2] === null) {
+                            
+                newBoard[nextRow][randomPiece - 1] = null;
+                newBoard[nextRow + 1][randomPiece - 2] = 'king-computer';
+                newBoard[randomRow][randomPiece] = null;
 
-        } else if (board[nextRow][randomPiece + 1] === null) {  
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow - 1] !== undefined &&
+                (newBoard[nextRow][randomPiece + 1] === 'player' ||
+                newBoard[nextRow][randomPiece + 1] === 'king-player') &&
+                newBoard[nextRow - 1][randomPiece - 2] === null) {
+
+                newBoard[nextRow][randomPiece + 1] = null;
+                newBoard[nextRow - 1][randomPiece - 2] = 'king-computer';
+                newBoard[randomRow][randomPiece] = null;
+
+                
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow][randomPiece + 1] === null) {  
+                
+                    newBoard[randomRow][randomPiece] = null;
+                    newBoard[nextRow][randomPiece + 1] = 'king-computer';
+                
+            } else if (newBoard[randomRow - 1] !== undefined &&
+                newBoard[randomRow - 1][randomPiece + 1] === null) {  
+                
+                newBoard[randomRow][randomPiece] = null;
+                newBoard[randomRow - 1][randomPiece + 1] = 'king-computer';
             
-            setTimeout(() => {
-                board[randomRow][randomPiece] = null;
-                board[nextRow][randomPiece + 1] = 'computer';
-            }, 10);
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow][randomPiece - 1] === null) {
+        
+                newBoard[randomRow][randomPiece] = null;
+                newBoard[nextRow][randomPiece - 1] = 'king-computer';
+                            
+            } else if (newBoard[randomRow - 1] !== undefined &&
+                newBoard[randomRow - 1][randomPiece - 1] === null) {  
+                
+                newBoard[randomRow][randomPiece] = null;
+                newBoard[randomRow - 1][randomPiece - 1] = 'king-computer';
             
-            return board;
-            
-        } else if (board[nextRow][randomPiece - 1] === null) {
-    
-            setTimeout(() => {
-                board[randomRow][randomPiece] = null;
-                board[nextRow][randomPiece + 1] = 'computer';
-            }, 10);
-            
-            return board;
-            
+            } else {
+                computerMovesOrJumps()
+            }
+
+        } else if (newBoard[randomRow][randomPiece] === 'computer') {
+
+            if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow + 1] !== undefined &&
+                (newBoard[nextRow][randomPiece + 1] === 'player' ||
+                newBoard[nextRow][randomPiece + 1] === 'king-player') &&
+                newBoard[nextRow + 1][randomPiece + 2] === null) {
+
+                newBoard[nextRow][randomPiece + 1] = null;
+                newBoard[nextRow + 1][randomPiece + 2] = 'computer';
+                newBoard[randomRow][randomPiece] = null;
+
+                
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow + 1] !== undefined &&
+                (newBoard[nextRow][randomPiece - 1] === 'player' ||
+                newBoard[nextRow][randomPiece - 1] === 'king-player') &&
+                newBoard[nextRow + 1][randomPiece - 2] === null) {
+                            
+                    newBoard[nextRow][randomPiece - 1] = null;
+                    newBoard[nextRow + 1][randomPiece - 2] = 'computer';
+                    newBoard[randomRow][randomPiece] = null;
+
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow][randomPiece + 1] === null) {  
+                
+                    newBoard[randomRow][randomPiece] = null;
+                    newBoard[nextRow][randomPiece + 1] = 'computer';
+                
+            } else if (newBoard[nextRow] !== undefined &&
+                newBoard[nextRow][randomPiece - 1] === null) {
+        
+                    newBoard[randomRow][randomPiece] = null;
+                    newBoard[nextRow][randomPiece - 1] = 'computer';
+                            
+            } else {
+                computerMovesOrJumps()
+            }
+
         } else {
             computerMovesOrJumps()
         }
-        
-    }            
-            
-        
-    computerMovesOrJumps();
-    
 
-    return board;
+    }            
+        
+        computerMovesOrJumps();
+        return newBoard;
 
 }
-    
