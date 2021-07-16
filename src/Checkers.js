@@ -4,7 +4,6 @@ import { BoardContext } from './components/context/BoardContext';
 import { GameContext } from './components/context/GameContext';
 import { Scores } from './components/scores/Scores';
 import { createBoard } from './helpers/createBoard';
-import { scoreCounter } from './helpers/scoreCounter';
 
 export const Checkers = () => {
 
