@@ -16,14 +16,20 @@ body {
     background-color: #444857;
 }
 
-main {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#root {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+main {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 460px;
 }
 
 h1 {
@@ -32,6 +38,8 @@ h1 {
     letter-spacing: 1px;
     cursor: default;
     user-select: none;
+    width: 100%;
+    text-align: center;
 }
 
 #start {
@@ -87,4 +95,43 @@ h1 {
 
 .pieces:hover {
     filter: brightness(80%);
+}
+
+#scores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    margin-top: 28px;
+    margin-bottom: 14px;
+    text-align: center;
+    width: 300px;
+}
+
+#scores h2 {
+    font-size: 2.4rem;
+    margin-bottom: 26px;
+}
+
+#points-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#points-box div {
+    flex-basis: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#points-box div p {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+#points-box div small {
+    font-size: 0.7rem;
 }
