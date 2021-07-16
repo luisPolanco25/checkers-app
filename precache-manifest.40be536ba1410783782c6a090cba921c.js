@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "45faa22e9d9d30f12cbeb38afb87c2f9",
+    "revision": "5dda493e2910d50755834bc079f957fe",
     "url": "/checkers-app/index.html"
   },
   {
-    "revision": "c30238b2d695c013d48d",
-    "url": "/checkers-app/static/css/main.18fa541f.chunk.css"
+    "revision": "28006ef8b161812f697c",
+    "url": "/checkers-app/static/css/main.76dd11dd.chunk.css"
   },
   {
     "revision": "9a631e22492c4da05452",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/checkers-app/static/js/2.7d431426.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c30238b2d695c013d48d",
-    "url": "/checkers-app/static/js/main.6c479ab7.chunk.js"
+    "revision": "28006ef8b161812f697c",
+    "url": "/checkers-app/static/js/main.436ffdaf.chunk.js"
   },
   {
     "revision": "2739d430df7c046dbb71",
