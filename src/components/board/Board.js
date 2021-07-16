@@ -11,10 +11,10 @@ export const Board = () => {
     const {board, setBoard} = useContext(BoardContext);
     const {gameHelpers, setGameHelpers} = useContext(GameContext);
     const {gameHasStarted} = gameHelpers;
-
     
     const kingPlayer = board[0].indexOf('player');
     const kingComputer = board[7].indexOf('computer');
+
     if (kingPlayer >= 0 || kingComputer >= 0) {
         kingMaker(kingPlayer, kingComputer, board);
     }

@@ -12,7 +12,9 @@ export const Row = ({row, rowIdx}) => {
 
     const handleMove = (row, square, squareIdx) => {
         
-        if (isPieceSelected && (square === 'movement1' || square === 'movement2')) {
+        if (isPieceSelected &&
+            board[board.indexOf(selectedPiecePosition.row)][selectedPiecePosition.idx] === 'player' &&
+            (square === 'movement1' || square === 'movement2')) {
             
             const pieceRow = board.indexOf(selectedPiecePosition.row);
             const pieceIdx = selectedPiecePosition.idx;
@@ -32,7 +34,9 @@ export const Row = ({row, rowIdx}) => {
             
         }
 
-        if (isPieceSelected && (square === 'jump1' || square === 'jump2')) {
+        if (isPieceSelected &&
+            board[board.indexOf(selectedPiecePosition.row)][selectedPiecePosition.idx] === 'player' &&
+            (square === 'jump1' || square === 'jump2')) {
             
             const pieceRow = board.indexOf(selectedPiecePosition.row);
             const pieceIdx = selectedPiecePosition.idx
@@ -60,6 +64,72 @@ export const Row = ({row, rowIdx}) => {
             
         }
 
+        if (isPieceSelected && 
+            board[board.indexOf(selectedPiecePosition.row)][selectedPiecePosition.idx] === 'king-player' &&
+           (square === 'movement1' || square === 'movement2' ||
+           square === 'movement3' ||square === 'movement4')) {
+            
+            const pieceRow = board.indexOf(selectedPiecePosition.row);
+            const pieceIdx = selectedPiecePosition.idx;
+            
+            
+            
+            board[pieceRow][pieceIdx] = null;
+            const selectedRow = board.indexOf(row);
+            
+            board[selectedRow][squareIdx] = 'king-player';
+            
+            gameHelpers.isComputerTurn = true;
+
+            
+            setTimeout(() => {
+                setBoard(computerPlaythrough(board));
+                setGameHelpers({...gameHelpers, isComputerTurn: false})
+            }, 2500);
+            
+        }
+
+        if (isPieceSelected &&
+            board[board.indexOf(selectedPiecePosition.row)][selectedPiecePosition.idx] === 'king-player' &&
+           (square === 'jump1' || square === 'jump2' ||
+           square === 'jump3' || square === 'jump4')) {
+            
+            const pieceRow = board.indexOf(selectedPiecePosition.row);
+            const pieceIdx = selectedPiecePosition.idx
+
+            board[pieceRow][pieceIdx] = null;
+
+            const selectedRow = board.indexOf(row);
+            board[selectedRow][squareIdx] = 'king-player';
+
+            
+            if (square === 'jump1') {
+                board[selectedRow + 1][squareIdx + 1] = null;
+            } 
+
+            if (square === 'jump2') {
+                board[selectedRow - 1][squareIdx + 1] = null;
+            }
+
+            if (square === 'jump3') {
+                board[selectedRow + 1][squareIdx - 1] = null;
+            } 
+
+            if (square === 'jump4') {
+                board[selectedRow - 1][squareIdx - 1] = null;
+            }
+
+            gameHelpers.isComputerTurn = true;
+
+            
+            setTimeout(() => {
+                setBoard(computerPlaythrough(board));
+                setGameHelpers({...gameHelpers, isComputerTurn: false})
+            }, 2500);
+            
+        }
+
+
     }
     
     
@@ -71,7 +141,9 @@ export const Row = ({row, rowIdx}) => {
                 className="square" 
                 style={
                     (isPieceSelected && (square === 'movement1' || square === 'movement2' || 
-                    square === 'jump1' || square === 'jump2')) ? 
+                    square === 'movement3' || square === 'movement4' ||
+                    square === 'jump1' || square === 'jump2' ||
+                    square === 'jump3' ||square === 'jump4')) ? 
                     {backgroundColor: '#66FF99', cursor: 'pointer'} :
                     
                     (squareIdx % 2 !== 0 && rowIdx % 2 === 0) ? {backgroundColor: '#D18B47'} : 

@@ -27,7 +27,7 @@ export const Piece = ({row, square, idx}) => {
             target.style.backgroundColor = '#66FF99'; 
             target.style.pointerEvents = 'none';
             
-            let nextRow = board.indexOf(row) - 1; 
+            const nextRow = board.indexOf(row) - 1; 
             
             for (let x = -1; x <= 1 ; x += 2) {
                 
@@ -74,15 +74,31 @@ export const Piece = ({row, square, idx}) => {
                     board[nextRow][idx + x] === null) {  
                     
                     setBoard((board) => board, board[nextRow][idx + x] = `movement${(x < 0) ? 1 : 2}`);
-                    
-                } else if (!(nextRow - 1 < 0) && 
-                           (board[nextRow][idx + x] === 'computer' ||
-                           board[nextRow][idx + x] === 'king-computer') &&
-                           board[nextRow - 1][idx + (x * 2)] === null) {
-                               
-                            setBoard((board) => board, board[nextRow - 1][idx + (x * 2)] = `jump${(x < 0) ? 1 : 2}`);
-
                 } 
+                
+                if (board[nextRow + 2] !== undefined &&
+                    board[nextRow + 2][idx + x] === null) {
+
+                    setBoard((board) => board, board[nextRow + 2][idx + x] = `movement${(x < 0) ? 1 : 2}`);
+                } 
+                
+                if (board[nextRow] !== undefined &&
+                    board[nextRow - 1] !== undefined && 
+                    (board[nextRow][idx + x] === 'computer' ||
+                    board[nextRow][idx + x] === 'king-computer') &&
+                    board[nextRow - 1][idx + (x * 2)] === null) {
+                        
+                        setBoard((board) => board, board[nextRow - 1][idx + (x * 2)] = `jump${(x < 0) ? 1 : 3}`);
+                }  
+                
+                if (board[nextRow + 3] !== undefined &&
+                    board[nextRow + 2] !== undefined && 
+                    (board[nextRow + 2][idx + x] === 'computer' ||
+                    board[nextRow + 2][idx + x] === 'king-computer') &&
+                    board[nextRow + 3][idx + (x * 2)] === null) {
+
+                        setBoard((board) => board, board[nextRow + 3][idx + (x * 2)] = `jump${(x < 0) ? 2 : 4}`);
+                }
                 
             }            
             
@@ -105,7 +121,7 @@ export const Piece = ({row, square, idx}) => {
                 }, 150);
 
 
-            let nextRow = board.indexOf(row) - 1; 
+            const nextRow = board.indexOf(row) - 1; 
 
 
             for (let x = -1; x <= 1 ; x += 2) {
@@ -118,7 +134,8 @@ export const Piece = ({row, square, idx}) => {
                     
                 } else if (board[nextRow] !== undefined &&
                            board[nextRow - 1] !== undefined &&
-                           board[nextRow][idx + x] === 'computer' &&
+                           (board[nextRow][idx + x] === 'computer' ||
+                           board[nextRow][idx + x] === 'king-computer') &&
                            (board[nextRow - 1][idx + (x * 2)] === 'jump1' ||
                            board[nextRow - 1][idx + (x * 2)] === 'jump2')) {
                                 
@@ -128,6 +145,72 @@ export const Piece = ({row, square, idx}) => {
             }
                         
         }
+
+         if (gameHasStarted && square === 'king-player' && !isComputerTurn) {
+            
+            target.style.backgroundColor = '#FFD700'; 
+            target.style.pointerEvents = 'all';
+
+             setTimeout(() => {
+                    setGameHelpers({
+                        ...gameHelpers,
+                        isPieceSelected: (isPieceSelected) ? true : false,
+                    });    
+                }, 150);
+            
+            const nextRow = board.indexOf(row) - 1; 
+            
+            for (let x = -1; x <= 1 ; x += 2) {
+                
+                if (board[nextRow] !== undefined &&
+                    (board[nextRow][idx + x] === 'movement1' ||
+                    board[nextRow][idx + x] === 'movement2' ||
+                    board[nextRow][idx + x] === 'movement3' ||
+                    board[nextRow][idx + x] === 'movement4')) {  
+                    
+                    setBoard((board) => board, board[nextRow][idx + x] = null);
+                    
+                } 
+                
+                if (board[nextRow + 2] !== undefined &&
+                    (board[nextRow + 2][idx + x] === 'movement1' ||
+                    board[nextRow + 2][idx + x] === 'movement2' ||
+                    board[nextRow + 2][idx + x] === 'movement3' ||
+                    board[nextRow + 2][idx + x] === 'movement4')) {
+
+                    setBoard((board) => board, board[nextRow + 2][idx + x] = null);
+
+                } 
+                
+                if (board[nextRow] !== undefined &&
+                    board[nextRow - 1] !== undefined && 
+                    (board[nextRow][idx + x] === 'computer' ||
+                    board[nextRow][idx + x] === 'king-computer') &&
+                    (board[nextRow - 1][idx + (x * 2)] === 'jump1' ||
+                    board[nextRow - 1][idx + (x * 2)] === 'jump2' ||
+                    board[nextRow - 1][idx + (x * 2)] === 'jump3' ||
+                    board[nextRow - 1][idx + (x * 2)] === 'jump4')) {
+                        
+                        setBoard((board) => board, board[nextRow - 1][idx + (x * 2)] = null);
+
+                }  
+                
+                if (board[nextRow + 3] !== undefined &&
+                    board[nextRow + 2] !== undefined && 
+                    (board[nextRow + 2][idx + x] === 'computer' ||
+                    board[nextRow + 2][idx + x] === 'king-computer') &&
+                    (board[nextRow + 3][idx + (x * 2)] === 'jump1' ||
+                    board[nextRow + 3][idx + (x * 2)] === 'jump2' ||
+                    board[nextRow + 3][idx + (x * 2)] === 'jump3' ||
+                    board[nextRow + 3][idx + (x * 2)] === 'jump4')) {
+
+                        setBoard((board) => board, board[nextRow + 3][idx + (x * 2)] = null);
+                        
+                }
+                
+            }            
+
+         }
     }
     
     return (
